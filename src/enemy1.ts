@@ -34,6 +34,7 @@ export default class Enemy1{
     }
 
     drawEnemy(){
+        console.log('dupadupoa')
         let enemImg : CanvasImageSource = new Image()
         enemImg.src = './enemies/1.png'
         let spriteH : number = 99

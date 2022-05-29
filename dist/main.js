@@ -138,6 +138,7 @@ class Enemy1 {
             this.frame > 4 ? this.frame = 0 : this.frame++;
     }
     drawEnemy() {
+        console.log('dupadupoa');
         let enemImg = new Image();
         enemImg.src = './enemies/1.png';
         let spriteH = 99;
