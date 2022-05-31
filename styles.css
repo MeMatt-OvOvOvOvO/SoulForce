@@ -3,3 +3,12 @@
     display: table;
     margin: 0 auto;
 }
+body{
+    background-color: #030000;
+}
+p, a{
+    color: white;
+}
+.left{
+    margin-left: 6.8%;
+}

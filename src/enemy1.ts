@@ -27,14 +27,14 @@ export default class Enemy1{
         this.y += Math.sin(this.angle)
         this.angle += 0.1
         
-        if(this.x + spriteW / 1.5 < 0) this.x = 1066
+        if(this.x + spriteW / 1.5 < 0) this.x=1066 //console.log('poza')
         //if(this.x + spriteW / 1.5 < 0) console.log('statek za plansza')
+        //console.log(this.frame, myFrame)
         if(myFrame % 4 === 0) this.frame > 4 ? this.frame = 0 : this.frame++
         
     }
 
     drawEnemy(){
-        console.log('dupaduposdasda')
         let enemImg : CanvasImageSource = new Image()
         enemImg.src = './enemies/1.png'
         let spriteH : number = 99

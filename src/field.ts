@@ -4,10 +4,11 @@ import Background from "./background";
 import Fire from "./fire";
 import Points from "./points";
 import LifesAndGuns from "./lifesAndGuns";
-import Enemy1 from "./enemy1";
 import Grid from "./grid";
+import FiveH from "./fiveH";
+import Boom from "./boom";
 
-export default function field(){
+export default function field(lives : number){
     const canvas = document.querySelector("canvas");
     const ctx = canvas?.getContext("2d");
     //console.log('field')
@@ -50,22 +51,24 @@ export default function field(){
     const myBase = new Base(0, 140, 0, 0)
     const points = new Points(1)
     const lifesAndGuns = new LifesAndGuns()
+    let fiveH = new FiveH(0, 0, 0, 0)
     let enem1Frame : number = 0
+    let boomFrame : number = 0
 
     const shots : any[] = []
     let pointss : number = 0
     let toChange : number = 0
 
+    let booms : Boom[] = []
+
     const grids = [new Grid(0, 0, 0, 0)]
 
-
     function animate(){
-       
         requestAnimationFrame(animate)
-        ctx!.clearRect(0, 0, canvas!.width, canvas!.height)
+        
         ctx!.fillStyle = "black"
 
-        ctx?.fillRect(0, 0, canvas!.width, canvas!.height)
+        ctx!.fillRect(0, 0, canvas!.width, canvas!.height)
 
         //render stars in background
         background1.render1()
@@ -76,7 +79,7 @@ export default function field(){
 
         lifesAndGuns.drawScore()
         lifesAndGuns.drawGuns(1)
-        lifesAndGuns.drawLifes(3)
+        lifesAndGuns.drawLifes(lives)
         
         if(myBase.x >= -2){
             myBase.xx -= 1.5
@@ -84,15 +87,6 @@ export default function field(){
         }else {
             myBase.updateBase()
         }
-
-        grids.forEach((grid) =>{
-            grid.update()
-            grid.enemies.forEach((enemy) =>{
-                enemy.updateEnemy(enem1Frame++)
-                enemy.drawEnemy()
-                //console.log(enemy)
-            })
-        })
 
         shots.forEach((shot, index)=>{
             
@@ -106,6 +100,65 @@ export default function field(){
             }
             
         })
+        booms.forEach(boom =>{
+            console.log(boomFrame)
+            if(boomFrame <= 15){
+                boom.drawBoom(boomFrame)
+                boomFrame++
+            }else {
+                boomFrame = 0
+                return
+            }
+            
+        })
+        
+        
+        grids.forEach((grid) =>{
+            grid.update()
+            grid.enemies.forEach((enemy, index) =>{
+                let fiveH = new FiveH(enemy.x, enemy.y, 0, 0)
+                enemy.updateEnemy(enem1Frame++)
+                enemy.drawEnemy()
+                
+                
+                if(enemy.x < 0){
+                    grid.enemies.splice(index, 1)
+                    console.log(grid.enemies)
+                }
+
+
+                
+                shots.forEach((shot, index1) =>{
+                    if(shot.x >= enemy.x && shot.y >= enemy.y && shot.y+21 >= enemy.y){
+                        
+                        //nie wiem czemu nie dziala
+                        booms.push(new Boom(enemy.x, enemy.y))
+                        
+                        
+                        setTimeout(()=>{
+                            const myEnem = grid.enemies.find(enemy2 => enemy2 === enemy)
+
+                            const myShot = shots.find(shot2 => shot2 === shot)
+
+                            if(myEnem && myShot){
+                                pointss += 1
+                                
+                                grid.enemies.splice(index, 1)
+                                shots.splice(index1, 1)
+
+                                if(grid.enemies.length == 0){
+                                    fiveH.update500()
+                                    pointss += 5
+                                }
+                            }
+                            
+                        }, 0)
+                    }
+                })
+            })
+        })
+
+        
 
 
         if(toChange == 0){
@@ -113,7 +166,7 @@ export default function field(){
                 plane.xx += 8
     
                 let flame : CanvasImageSource = new Image()
-                flame.src = './pics/flame.png'
+                flame.src = './pics/flame.png' 
                 ctx!.drawImage(flame, plane.x-66, plane.y+13, 80, 30);
     
                 //106, 48

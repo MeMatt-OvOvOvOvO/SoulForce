@@ -105,6 +105,44 @@ exports["default"] = Base;
 
 /***/ }),
 
+/***/ "./src/boom.ts":
+/*!*********************!*\
+  !*** ./src/boom.ts ***!
+  \*********************/
+/***/ ((__unused_webpack_module, exports) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const canvas = document.querySelector("canvas");
+const ctx = canvas === null || canvas === void 0 ? void 0 : canvas.getContext("2d");
+class Boom {
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+    }
+    drawBoom(boomFrame) {
+        let boom = new Image();
+        boom.src = './boom/boom.png';
+        let spriteH = 109;
+        let spriteW = 120;
+        //console.log(boomFrame)
+        if (boomFrame <= 14) {
+            if (boomFrame % 7 === 0)
+                boomFrame > 2 ? boomFrame = 0 : boomFrame++;
+            ctx.drawImage(boom, boomFrame * spriteW, 0, spriteW, spriteH, this.x, this.y, spriteW / 1.5, spriteH / 1.5);
+        }
+        else
+            return;
+        //ctx!.drawImage(boom, 100, 200, 100, 300);
+        //console.log('boom')
+        //https://www.youtube.com/watch?v=KICADKr_zeM&ab_channel=Frankslaboratory
+    }
+}
+exports["default"] = Boom;
+
+
+/***/ }),
+
 /***/ "./src/enemy1.ts":
 /*!***********************!*\
   !*** ./src/enemy1.ts ***!
@@ -132,13 +170,13 @@ class Enemy1 {
         this.y += Math.sin(this.angle);
         this.angle += 0.1;
         if (this.x + spriteW / 1.5 < 0)
-            this.x = 1066;
+            this.x = 1066; //console.log('poza')
         //if(this.x + spriteW / 1.5 < 0) console.log('statek za plansza')
+        //console.log(this.frame, myFrame)
         if (myFrame % 4 === 0)
             this.frame > 4 ? this.frame = 0 : this.frame++;
     }
     drawEnemy() {
-        console.log('dupaduposdasda');
         let enemImg = new Image();
         enemImg.src = './enemies/1.png';
         let spriteH = 99;
@@ -169,7 +207,9 @@ const fire_1 = __importDefault(__webpack_require__(/*! ./fire */ "./src/fire.ts"
 const points_1 = __importDefault(__webpack_require__(/*! ./points */ "./src/points.ts"));
 const lifesAndGuns_1 = __importDefault(__webpack_require__(/*! ./lifesAndGuns */ "./src/lifesAndGuns.ts"));
 const grid_1 = __importDefault(__webpack_require__(/*! ./grid */ "./src/grid.ts"));
-function field() {
+const fiveH_1 = __importDefault(__webpack_require__(/*! ./fiveH */ "./src/fiveH.ts"));
+const boom_1 = __importDefault(__webpack_require__(/*! ./boom */ "./src/boom.ts"));
+function field(lives) {
     const canvas = document.querySelector("canvas");
     const ctx = canvas === null || canvas === void 0 ? void 0 : canvas.getContext("2d");
     //console.log('field')
@@ -205,16 +245,18 @@ function field() {
     const myBase = new base_1.default(0, 140, 0, 0);
     const points = new points_1.default(1);
     const lifesAndGuns = new lifesAndGuns_1.default();
+    let fiveH = new fiveH_1.default(0, 0, 0, 0);
     let enem1Frame = 0;
+    let boomFrame = 0;
     const shots = [];
     let pointss = 0;
     let toChange = 0;
+    let booms = [];
     const grids = [new grid_1.default(0, 0, 0, 0)];
     function animate() {
         requestAnimationFrame(animate);
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.fillStyle = "black";
-        ctx === null || ctx === void 0 ? void 0 : ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
         //render stars in background
         background1.render1();
         background2.render2();
@@ -222,7 +264,7 @@ function field() {
         points.drawPoints(pointss);
         lifesAndGuns.drawScore();
         lifesAndGuns.drawGuns(1);
-        lifesAndGuns.drawLifes(3);
+        lifesAndGuns.drawLifes(lives);
         if (myBase.x >= -2) {
             myBase.xx -= 1.5;
             myBase.updateBase();
@@ -230,14 +272,6 @@ function field() {
         else {
             myBase.updateBase();
         }
-        grids.forEach((grid) => {
-            grid.update();
-            grid.enemies.forEach((enemy) => {
-                enemy.updateEnemy(enem1Frame++);
-                enemy.drawEnemy();
-                //console.log(enemy)
-            });
-        });
         shots.forEach((shot, index) => {
             if (shot.x >= 1066) {
                 setTimeout(() => {
@@ -248,6 +282,48 @@ function field() {
             else {
                 shot.updateFire();
             }
+        });
+        booms.forEach(boom => {
+            console.log(boomFrame);
+            if (boomFrame <= 15) {
+                boom.drawBoom(boomFrame);
+                boomFrame++;
+            }
+            else {
+                boomFrame = 0;
+                return;
+            }
+        });
+        grids.forEach((grid) => {
+            grid.update();
+            grid.enemies.forEach((enemy, index) => {
+                let fiveH = new fiveH_1.default(enemy.x, enemy.y, 0, 0);
+                enemy.updateEnemy(enem1Frame++);
+                enemy.drawEnemy();
+                if (enemy.x < 0) {
+                    grid.enemies.splice(index, 1);
+                    console.log(grid.enemies);
+                }
+                shots.forEach((shot, index1) => {
+                    if (shot.x >= enemy.x && shot.y >= enemy.y && shot.y + 21 >= enemy.y) {
+                        //nie wiem czemu nie dziala
+                        booms.push(new boom_1.default(enemy.x, enemy.y));
+                        setTimeout(() => {
+                            const myEnem = grid.enemies.find(enemy2 => enemy2 === enemy);
+                            const myShot = shots.find(shot2 => shot2 === shot);
+                            if (myEnem && myShot) {
+                                pointss += 1;
+                                grid.enemies.splice(index, 1);
+                                shots.splice(index1, 1);
+                                if (grid.enemies.length == 0) {
+                                    fiveH.update500();
+                                    pointss += 5;
+                                }
+                            }
+                        }, 0);
+                    }
+                });
+            });
         });
         if (toChange == 0) {
             if (plane.x <= 230) {
@@ -521,7 +597,7 @@ function firstScreen() {
             window.setTimeout(function () {
                 window.removeEventListener('keydown', ckeck);
                 ctx === null || ctx === void 0 ? void 0 : ctx.clearRect(0, 0, canvas.width, canvas.height);
-                (0, field_1.default)();
+                (0, field_1.default)(3);
             }, 600);
             //https://www.youtube.com/watch?v=4q2vvZn5aoo&ab_channel=ChrisCourses
         }
@@ -529,6 +605,40 @@ function firstScreen() {
     image.src = "./pics/sc1.png";
 }
 exports["default"] = firstScreen;
+
+
+/***/ }),
+
+/***/ "./src/fiveH.ts":
+/*!**********************!*\
+  !*** ./src/fiveH.ts ***!
+  \**********************/
+/***/ ((__unused_webpack_module, exports) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const canvas = document.querySelector("canvas");
+const ctx = canvas === null || canvas === void 0 ? void 0 : canvas.getContext("2d");
+class FiveH {
+    constructor(x, y, xx, yy) {
+        this.x = x;
+        this.y = y;
+        this.xx = xx;
+        this.yy = yy;
+    }
+    draw500() {
+        let fivHImg = new Image();
+        fivHImg.src = './pics/500.png';
+        console.log(this.x, this.y);
+        ctx.drawImage(fivHImg, this.x, this.y);
+    }
+    update500() {
+        this.draw500();
+        this.y += this.yy;
+        this.x += this.xx;
+    }
+}
+exports["default"] = FiveH;
 
 
 /***/ }),
@@ -562,7 +672,7 @@ class Grid {
                 y: Math.sin(this.angle)
             };
             //console.log('pos',pos.x, pos.y)
-            this.enemies.push(new enemy1_1.default(1066, 320, 0, 0, 0, -i, pos));
+            this.enemies.push(new enemy1_1.default(1066 * 2, 275, 0, 0, 0, -i, pos));
             this.angle += 0.1;
         }
     }

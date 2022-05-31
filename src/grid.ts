@@ -22,7 +22,7 @@ export default class Grid{
                 y: Math.sin(this.angle)
             }
             //console.log('pos',pos.x, pos.y)
-            this.enemies.push(new Enemy1(1066, 320, 0, 0, 0, -i, pos))
+            this.enemies.push(new Enemy1(1066*2, 275, 0, 0, 0, -i, pos))
             this.angle += 0.1
             
         }    
