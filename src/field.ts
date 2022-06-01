@@ -4,14 +4,19 @@ import Background from "./background";
 import Fire from "./fire";
 import Points from "./points";
 import LifesAndGuns from "./lifesAndGuns";
-import Grid from "./grid";
 import FiveH from "./fiveH";
 import Boom from "./boom";
+import Enem2 from "./enemy22";
 
 export default function field(lives : number){
     const canvas = document.querySelector("canvas");
     const ctx = canvas?.getContext("2d");
     //console.log('field')
+
+    let kitty : HTMLAudioElement = new Audio()
+    kitty.src = './sound/kitty.wav'    
+    kitty.volume = 0.04
+    kitty.play()
 
 
     ctx!.fillStyle = "black"
@@ -51,19 +56,31 @@ export default function field(lives : number){
     const myBase = new Base(0, 140, 0, 0)
     const points = new Points(1)
     const lifesAndGuns = new LifesAndGuns()
-    let fiveH = new FiveH(0, 0, 0, 0)
-    let enem1Frame : number = 0
-    let boomFrame : number = 0
+
+    let speed : number = 0
 
     const shots : any[] = []
     let pointss : number = 0
     let toChange : number = 0
-
+    let fivHArr : FiveH[] = []
     let booms : Boom[] = []
+    let lastTime : number = 0
 
-    const grids = [new Grid(0, 0, 0, 0)]
+    let enemiess1 : Enem2[] = []
+    let enemiess2 : Enem2[] = []
+    let enemiess3 : Enem2[] = []
 
-    function animate(){
+    for(let a = 1; a < 6; a++){
+        enemiess1.push(new Enem2(1200+canvas!.width + a * 85, 285, 5, 0, 3, 101, 99, 11, a))
+        enemiess2.push(new Enem2(2500+canvas!.width + a * 85, 185, 5, 0, 3, 101, 99, 11, a))
+        enemiess3.push(new Enem2(3900+canvas!.width + a * 85, 435, 5, 0, 3, 103, 100, 22, a))
+    }
+
+    let over : CanvasImageSource = new Image()
+    over.src = './pics/gameover.png' 
+    
+    function animate(timeStamp : number){
+        const deltaTime = timeStamp - lastTime
         requestAnimationFrame(animate)
         
         ctx!.fillStyle = "black"
@@ -100,63 +117,246 @@ export default function field(lives : number){
             }
             
         })
-        booms.forEach(boom =>{
-            console.log(boomFrame)
-            if(boomFrame <= 15){
-                boom.drawBoom(boomFrame)
-                boomFrame++
-            }else {
-                boomFrame = 0
-                return
-            }
-            
-        })
-        
-        
-        grids.forEach((grid) =>{
-            grid.update()
-            grid.enemies.forEach((enemy, index) =>{
-                let fiveH = new FiveH(enemy.x, enemy.y, 0, 0)
-                enemy.updateEnemy(enem1Frame++)
-                enemy.drawEnemy()
-                
-                
-                if(enemy.x < 0){
-                    grid.enemies.splice(index, 1)
-                    console.log(grid.enemies)
-                }
+        console.log(enemiess1)
 
+        enemiess1.forEach((enemy1, index)=>{
+            enemy1.update(deltaTime)
+            if(enemy1.markedForDeletion) enemiess1.slice(index, 1)
 
-                
-                shots.forEach((shot, index1) =>{
-                    if(shot.x >= enemy.x && shot.y >= enemy.y && shot.y+21 >= enemy.y){
-                        
-                        //nie wiem czemu nie dziala
-                        booms.push(new Boom(enemy.x, enemy.y))
-                        
-                        
-                        setTimeout(()=>{
-                            const myEnem = grid.enemies.find(enemy2 => enemy2 === enemy)
+            shots.forEach((shot, index1) =>{
+                if(shot.x >= enemy1.x && shot.y >= enemy1.y && shot.y+21 >= enemy1.y){
 
-                            const myShot = shots.find(shot2 => shot2 === shot)
+                    booms.push(new Boom(enemy1.x + 20, enemy1.y + 40, speed))
+                    
+                    
+                    setTimeout(()=>{
+                        const myEnem = enemiess1.find(enemy2 => enemy2 === enemy2)
 
-                            if(myEnem && myShot){
-                                pointss += 1
-                                
-                                grid.enemies.splice(index, 1)
-                                shots.splice(index1, 1)
+                        const myShot = shots.find(shot2 => shot2 === shot)
 
-                                if(grid.enemies.length == 0){
-                                    fiveH.update500()
-                                    pointss += 5
-                                }
-                            }
+                        if(myEnem && myShot){
+                            pointss += 1
                             
-                        }, 0)
-                    }
-                })
+                            enemiess1.splice(index, 1)
+                            shots.splice(index1, 1)
+
+                            if(enemiess1.length == 0){
+                                fivHArr.push(new FiveH(enemy1.x, enemy1.y, 10, 10))
+                                fivHArr.forEach(bonus=>{
+                                    bonus.update500()
+                                })
+                                pointss += 5
+                            }
+                        }
+                        
+                    }, 0)
+                }
             })
         })
+
+        enemiess2.forEach((enemy2, index)=>{
+            enemy2.update(deltaTime)
+            if(enemy2.markedForDeletion) enemiess2.slice(index, 1)
+
+            shots.forEach((shot, index1) =>{
+                if(shot.x >= enemy2.x && shot.y >= enemy2.y && shot.y+21 >= enemy2.y){
+
+                    booms.push(new Boom(enemy2.x + 20, enemy2.y + 40, speed))
+                    
+                    
+                    setTimeout(()=>{
+                        const myEnem = enemiess2.find(enemy2 => enemy2 === enemy2)
+
+                        const myShot = shots.find(shot2 => shot2 === shot)
+
+                        if(myEnem && myShot){
+                            pointss += 1
+                            
+                            enemiess2.splice(index, 1)
+                            shots.splice(index1, 1)
+
+                            if(enemiess2.length == 0){
+                                fivHArr.push(new FiveH(enemy2.x, enemy2.y, 10, 10))
+                                fivHArr.forEach(bonus=>{
+                                    bonus.update500()
+                                })
+                                pointss += 5
+                            }
+                        }
+                        
+                    }, 0)
+                }
+            })
+        })
+
+        enemiess3.forEach((enemy3, index)=>{
+            enemy3.update(deltaTime)
+            if(enemy3.markedForDeletion) enemiess3.slice(index, 1)
+
+            shots.forEach((shot, index1) =>{
+                if(shot.x >= enemy3.x && shot.y >= enemy3.y && shot.y+21 >= enemy3.y){
+
+                    booms.push(new Boom(enemy3.x + 20, enemy3.y + 40, speed))
+                    
+                    
+                    setTimeout(()=>{
+                        const myEnem = enemiess3.find(enemy2 => enemy2 === enemy2)
+
+                        const myShot = shots.find(shot2 => shot2 === shot)
+
+                        if(myEnem && myShot){
+                            pointss += 1
+                            
+                            enemiess3.splice(index, 1)
+                            shots.splice(index1, 1)
+
+                            if(enemiess3.length == 0){
+                                fivHArr.push(new FiveH(enemy3.x, enemy3.y, 10, 10))
+                                fivHArr.forEach(bonus=>{
+                                    bonus.update500()
+                                })
+                                pointss += 5
+                            }
+                        }
+                        
+                    }, 0)
+                }
+            })
+        })
+
+        booms.forEach((boom, index)=>{
+            boom.updateBoom(deltaTime)
+            if(boom.markedForDetection) booms.splice(index, 1)
+        })
+        booms.forEach((boom, index)=>{
+            boom.drawBoom()
+        })
+        
+        
+        // grids.forEach((grid) =>{
+        //     grid.update()
+        //     grid.enemies.forEach((enemy, index) =>{
+        //         //let fiveH = new FiveH(enemy.x, enemy.y, 0, 0)
+        //         enemy.updateEnemy(enem1Frame++)
+        //         enemy.drawEnemy()
+
+        //         // enemy.updateEnemy(deltaTime)
+        //         // enemy.drawEnemy()
+                
+                
+        //         if(enemy.x < 0){
+        //             grid.enemies.splice(index, 1)
+        //             console.log(grid.enemies)
+        //         }
+
+
+                
+        //         shots.forEach((shot, index1) =>{
+        //             if(shot.x >= enemy.x && shot.y >= enemy.y && shot.y+21 >= enemy.y){
+
+        //                 booms.push(new Boom(enemy.x + enemy.spriteH / 3, enemy.y + enemy.spriteW / 3, speed))
+                        
+                        
+        //                 setTimeout(()=>{
+        //                     const myEnem = grid.enemies.find(enemy2 => enemy2 === enemy)
+
+        //                     const myShot = shots.find(shot2 => shot2 === shot)
+
+        //                     if(myEnem && myShot){
+        //                         pointss += 1
+                                
+        //                         grid.enemies.splice(index, 1)
+        //                         shots.splice(index1, 1)
+
+        //                         if(grid.enemies.length == 0){
+        //                             fiveH.update500()
+        //                             pointss += 5
+        //                         }
+        //                     }
+                            
+        //                 }, 0)
+        //             }
+        //         })
+        //         //console.log('x',enemy.x, plane.x+plane.width)
+
+        //         if(enemy.y == plane.y + plane.height){
+        //             kitty.pause()
+        //             if(lives - 1 == 0){
+        //                 console.log('game over')
+        //                 ctx!.drawImage(over, 100, 100);
+                        
+                       
+        //             }else {
+        //                 ctx!.clearRect(0, 0, canvas!.width, canvas!.height)
+        //                 field(lives-1)
+                        
+        //             }
+        //         }
+        //     })
+        // })
+
+        // grids2.forEach((grid) =>{
+        //     grid.update()
+        //     grid.enemies.forEach((enemy, index) =>{
+        //         //let fiveH = new FiveH(enemy.x, enemy.y, 0, 0)
+        //         enemy.updateEnemy(enem1Frame++)
+        //         enemy.drawEnemy()
+
+        //         // enemy.updateEnemy(deltaTime)
+        //         // enemy.drawEnemy()
+                
+                
+        //         if(enemy.x < 0){
+        //             grid.enemies.splice(index, 1)
+        //             console.log(grid.enemies)
+        //         }
+
+
+                
+        //         shots.forEach((shot, index1) =>{
+        //             if(shot.x >= enemy.x && shot.y >= enemy.y && shot.y+21 >= enemy.y){
+
+        //                 booms.push(new Boom(enemy.x + enemy.spriteH / 3, enemy.y + enemy.spriteW / 3, speed))
+                        
+                        
+        //                 setTimeout(()=>{
+        //                     const myEnem = grid.enemies.find(enemy2 => enemy2 === enemy)
+
+        //                     const myShot = shots.find(shot2 => shot2 === shot)
+
+        //                     if(myEnem && myShot){
+        //                         pointss += 1
+                                
+        //                         grid.enemies.splice(index, 1)
+        //                         shots.splice(index1, 1)
+
+        //                         if(grid.enemies.length == 0){
+        //                             fiveH.update500()
+        //                             pointss += 5
+        //                         }
+        //                     }
+                            
+        //                 }, 0)
+        //             }
+        //         })
+        //         //console.log('x',enemy.x, plane.x+plane.width)
+
+        //         if(enemy.y == plane.y + plane.height){
+        //             kitty.pause()
+        //             if(lives - 1 == 0){
+        //                 kitty.pause()
+        //                 console.log('game over')
+        //                 ctx!.drawImage(over, 100, 100);
+                        
+                       
+        //             }else {
+        //                 ctx!.clearRect(0, 0, canvas!.width, canvas!.height)
+        //                 field(lives-1)
+        //             }
+        //         }
+
+        //     })
+        // })
 
         
 
@@ -193,13 +393,13 @@ export default function field(lives : number){
                 return 
             }
         }else if(keys.down.pressed){
-            plane.yy = 4
+            plane.yy = 5
             return
         }else if(keys.left.pressed){
-            plane.xx = -4
+            plane.xx = -5
             return
         }else if(keys.right.pressed){
-            plane.xx = 4
+            plane.xx = 5
             return
         }else if(keys.fire.pressed){
             
@@ -213,7 +413,10 @@ export default function field(lives : number){
         }
     }
     
-    animate()
+    animate(0)
+    
+       
+    
     
     
     addEventListener('keydown', movePlane)
@@ -230,7 +433,7 @@ export default function field(lives : number){
                 return
             }else{
                 //keys.up.pressed = true
-                plane.yy = -13
+                plane.yy = -15
                 console.log('W')
                 plane.imgstatek = 'plane3.png'
             }
@@ -239,7 +442,7 @@ export default function field(lives : number){
                 return
             }else{
                 //keys.left.pressed = true
-                plane.xx = -13
+                plane.xx = -15
                 console.log('A')
                 plane.imgstatek = 'plane1.png'
             }
@@ -248,7 +451,7 @@ export default function field(lives : number){
                 return
             }else{
                 //keys.down.pressed = true
-                plane.yy = 13
+                plane.yy = 15
                 console.log('S') 
                 plane.imgstatek = 'plane2.png'
             }
@@ -257,7 +460,7 @@ export default function field(lives : number){
                 return
             }else{
                 //keys.right.pressed = true
-                plane.xx = 13
+                plane.xx = 15
                 console.log('D')
                 plane.imgstatek = 'plane1.png'
             }
@@ -271,7 +474,7 @@ export default function field(lives : number){
                 console.log(shots)
             
         }else{
-            console.log(x,y)
+            //console.log(x,y)
             return
         }
     }

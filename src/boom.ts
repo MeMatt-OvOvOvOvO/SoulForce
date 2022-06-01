@@ -1,33 +1,44 @@
 const canvas = document.querySelector("canvas");
 const ctx = canvas?.getContext("2d");
 export default class Boom{
+    speed : number
+    spriteH : number = 109
+    spriteW : number = 120
+    sizeModifire : number = 0.8
+    width : number = this.spriteW * this.sizeModifire
+    height : number = this.spriteH * this.sizeModifire
     public x : number
     public y : number
+    frameX : number = 0
+    maxFrame : number = 6
+    markedForDetection : boolean = false
+    fps : number = 5
+    frameInterval : number = 100000/this.fps
+    frameTimer : number = 0
 
-    constructor(x:number, y:number){
-        this.x = x
-        this.y = y
-
+    constructor(x:number, y:number, speed:number){
+        this.x = x - this.width * 0.5
+        this.y = y - this.width * 0.5
+        this.speed = speed
     }
 
-    drawBoom(boomFrame : number){
-        let boom : CanvasImageSource = new Image()
-        boom.src = './boom/boom.png'
-        let spriteH : number = 109
-        let spriteW : number = 120
-        //console.log(boomFrame)
-
-        if(boomFrame <= 14){
-            
-            if(boomFrame % 7 === 0) boomFrame > 2 ? boomFrame = 0 : boomFrame++
-            ctx!.drawImage(boom, boomFrame * spriteW, 0, spriteW, spriteH, this.x, this.y, spriteW / 1.5, spriteH / 1.5);
-        }else return
-        
-        
-        //ctx!.drawImage(boom, 100, 200, 100, 300);
-        //console.log('boom')
-        
-        //https://www.youtube.com/watch?v=KICADKr_zeM&ab_channel=Frankslaboratory
+    drawBoom(){
+        let sound = new Audio()
+        sound.src = './sound/boom.wav'
+        sound.volume = 0.02
+        if(this.frameX === 0) sound.play()
+        let image : CanvasImageSource = new Image()
+        image.src = './boom/booom.png'
+        ctx!.drawImage(image, this.frameX * this.spriteW, 0, this.spriteW, this.spriteH, this.x, this.y, this.width, this.height)
     }
-    
+    updateBoom(deltaTime : number){
+        this.x -= this.speed
+        if(this.frameTimer > this.frameInterval){
+            this.frameX++
+            this.frameTimer = 0
+        }else{
+            this.frameTimer += deltaTime
+        }
+        if(this.frameX > this.maxFrame) this.markedForDetection = true
+    }
 }

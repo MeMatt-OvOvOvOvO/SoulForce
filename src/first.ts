@@ -85,6 +85,8 @@ export default function firstScreen(){
             window.setTimeout(function(){
                 window.removeEventListener('keydown', ckeck)
                 ctx?.clearRect(0, 0, canvas!.width, canvas!.height)
+                
+                
                 field(3)
 
             }, 600)

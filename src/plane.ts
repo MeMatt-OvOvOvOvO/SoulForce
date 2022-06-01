@@ -46,6 +46,7 @@ export default class Plane implements Position, Velocity{
         let img = './pics/' + this.imgstatek;
         statekk.src = img
         ctx?.drawImage(statekk, this.x, this.y, this.width, this.height)
+        //console.log(this.x, this.y)
     }
     update(){
         this.draw()
