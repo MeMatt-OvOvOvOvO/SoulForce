@@ -12,6 +12,16 @@ export default class Fire{
         this.xx = xx
         this.yy = yy
     }
+    drawCollisionShape(){
+        ctx!.beginPath();
+        ctx!.moveTo(this.x, this.y);
+        ctx!.lineTo(this.x+32, this.y);
+        ctx!.lineTo(this.x+32, this.y+25);
+        ctx!.lineTo(this.x, this.y+25);
+        ctx!.strokeStyle = '#ff0000';
+        ctx!.closePath();
+        ctx!.stroke();
+    }
 
     drawFire(){
         let shots : CanvasImageSource = new Image()

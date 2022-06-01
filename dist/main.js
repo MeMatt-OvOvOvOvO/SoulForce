@@ -342,6 +342,9 @@ function field(lives) {
     }
     let over = new Image();
     over.src = './pics/gameover.png';
+    let shott = new Audio();
+    shott.src = './sound/shot.wav';
+    shott.volume = 0.1;
     function animate(timeStamp) {
         const deltaTime = timeStamp - lastTime;
         requestAnimationFrame(animate);
@@ -370,16 +373,19 @@ function field(lives) {
                 }, 0);
             }
             else {
+                shott.play();
+                shot.drawCollisionShape();
                 shot.updateFire();
             }
         });
-        console.log(enemiess1);
+        //console.log(enemiess1)
         enemiess1.forEach((enemy1, index) => {
             enemy1.update(deltaTime);
             if (enemy1.markedForDeletion)
                 enemiess1.slice(index, 1);
             shots.forEach((shot, index1) => {
-                if (shot.x >= enemy1.x && shot.y >= enemy1.y && shot.y + 21 >= enemy1.y) {
+                console.log(shot.x, shot.y);
+                if (shot.x + 32 >= enemy1.x && shot.y >= enemy1.y && shot.y + 21 >= enemy1.y) {
                     booms.push(new boom_1.default(enemy1.x + 20, enemy1.y + 40, speed));
                     setTimeout(() => {
                         const myEnem = enemiess1.find(enemy2 => enemy2 === enemy2);
@@ -389,16 +395,23 @@ function field(lives) {
                             enemiess1.splice(index, 1);
                             shots.splice(index1, 1);
                             if (enemiess1.length == 0) {
-                                fivHArr.push(new fiveH_1.default(enemy1.x, enemy1.y, 10, 10));
-                                fivHArr.forEach(bonus => {
-                                    bonus.update500();
-                                });
+                                fivHArr.push(new fiveH_1.default(enemy1.x, enemy1.y, 2, 4));
                                 pointss += 5;
                             }
                         }
                     }, 0);
                 }
             });
+            // if(enemy1.x -1 == plane.x + plane.width){
+            //     kitty.pause()
+            //     if(lives - 1 == 0){
+            //         console.log('game over')
+            //         ctx!.drawImage(over, 100, 100);
+            //     }else {
+            //         ctx!.clearRect(0, 0, canvas!.width, canvas!.height)
+            //         field(lives-1)
+            //     }
+            // }
         });
         enemiess2.forEach((enemy2, index) => {
             enemy2.update(deltaTime);
@@ -415,10 +428,7 @@ function field(lives) {
                             enemiess2.splice(index, 1);
                             shots.splice(index1, 1);
                             if (enemiess2.length == 0) {
-                                fivHArr.push(new fiveH_1.default(enemy2.x, enemy2.y, 10, 10));
-                                fivHArr.forEach(bonus => {
-                                    bonus.update500();
-                                });
+                                fivHArr.push(new fiveH_1.default(enemy2.x, enemy2.y, 2, 4));
                                 pointss += 5;
                             }
                         }
@@ -441,16 +451,21 @@ function field(lives) {
                             enemiess3.splice(index, 1);
                             shots.splice(index1, 1);
                             if (enemiess3.length == 0) {
-                                fivHArr.push(new fiveH_1.default(enemy3.x, enemy3.y, 10, 10));
-                                fivHArr.forEach(bonus => {
-                                    bonus.update500();
-                                });
+                                fivHArr.push(new fiveH_1.default(enemy3.x, enemy3.y, 2, 4));
                                 pointss += 5;
                             }
                         }
                     }, 0);
                 }
             });
+        });
+        fivHArr.forEach(bonus => {
+            bonus.draw();
+        });
+        fivHArr.forEach((bonus, index) => {
+            bonus.update(deltaTime);
+            if (bonus.markedForDetection)
+                fivHArr.splice(index, 1);
         });
         booms.forEach((boom, index) => {
             boom.updateBoom(deltaTime);
@@ -460,6 +475,7 @@ function field(lives) {
         booms.forEach((boom, index) => {
             boom.drawBoom();
         });
+        console.log(fivHArr);
         // grids.forEach((grid) =>{
         //     grid.update()
         //     grid.enemies.forEach((enemy, index) =>{
@@ -606,6 +622,7 @@ function field(lives) {
     // addEventListener('keyup', movePlane1)
     function keyupp() {
         plane.imgstatek = 'plane1.png';
+        plane.drawCollisionShape();
     }
     let x = 0;
     let y = 275;
@@ -630,6 +647,7 @@ function field(lives) {
                 plane.xx = -15;
                 console.log('A');
                 plane.imgstatek = 'plane1.png';
+                plane.drawCollisionShape();
             }
         }
         else if (key.keyCode == 83) {
@@ -652,6 +670,7 @@ function field(lives) {
                 plane.xx = 15;
                 console.log('D');
                 plane.imgstatek = 'plane1.png';
+                plane.drawCollisionShape();
             }
         }
         else if (key.keyCode == 70) {
@@ -713,6 +732,16 @@ class Fire {
         this.y = y;
         this.xx = xx;
         this.yy = yy;
+    }
+    drawCollisionShape() {
+        ctx.beginPath();
+        ctx.moveTo(this.x, this.y);
+        ctx.lineTo(this.x + 32, this.y);
+        ctx.lineTo(this.x + 32, this.y + 25);
+        ctx.lineTo(this.x, this.y + 25);
+        ctx.strokeStyle = '#ff0000';
+        ctx.closePath();
+        ctx.stroke();
     }
     drawFire() {
         let shots = new Image();
@@ -843,21 +872,42 @@ const canvas = document.querySelector("canvas");
 const ctx = canvas === null || canvas === void 0 ? void 0 : canvas.getContext("2d");
 class FiveH {
     constructor(x, y, xx, yy) {
+        this.spriteH = 108;
+        this.spriteW = 103;
+        this.sizeModifire = 0.7;
+        this.height = this.spriteH * this.sizeModifire;
+        this.width = this.spriteW * this.sizeModifire;
+        this.maxFrame = 4;
+        this.markedForDetection = false;
+        this.fps = 5;
+        this.frameInterval = 10000 / this.fps;
+        this.frameTimer = 0;
+        this.frameX = 0;
         this.x = x;
         this.y = y;
         this.xx = xx;
         this.yy = yy;
     }
-    draw500() {
+    draw() {
         let fivHImg = new Image();
         fivHImg.src = './pics/500.png';
-        //console.log(this.x, this.y)
-        ctx.drawImage(fivHImg, this.x, this.y);
+        ctx.drawImage(fivHImg, this.frameX * this.spriteW, 0, this.spriteW, this.spriteH, this.x, this.y, this.width, this.height);
     }
-    update500() {
-        this.draw500();
+    update(deltaTime) {
         this.y -= this.yy;
         this.x -= this.xx;
+        if (this.frameTimer > this.frameInterval) {
+            if (this.frameX < this.maxFrame)
+                this.frameX++;
+            else
+                this.frameX = 0;
+        }
+        else {
+            this.frameTimer += deltaTime;
+        }
+        this.draw();
+        if (this.x + this.width < 0)
+            this.markedForDetection = true;
     }
 }
 exports["default"] = FiveH;
@@ -946,6 +996,7 @@ class Plane {
         ctx.stroke();
     }
     draw() {
+        this.drawCollisionShape();
         //ctx!.fillStyle = 'red'
         let statekk = new Image();
         let img = './pics/' + this.imgstatek;

@@ -78,6 +78,10 @@ export default function field(lives : number){
 
     let over : CanvasImageSource = new Image()
     over.src = './pics/gameover.png' 
+
+    let shott : HTMLAudioElement = new Audio()
+    shott.src = './sound/shot.wav'    
+    shott.volume = 0.1
     
     function animate(timeStamp : number){
         const deltaTime = timeStamp - lastTime
@@ -113,18 +117,21 @@ export default function field(lives : number){
                     shots.splice(index, 1)
                 }, 0)
             }else{
+                shott.play()
+                shot.drawCollisionShape()
                 shot.updateFire()
             }
             
         })
-        console.log(enemiess1)
+        //console.log(enemiess1)
 
         enemiess1.forEach((enemy1, index)=>{
             enemy1.update(deltaTime)
             if(enemy1.markedForDeletion) enemiess1.slice(index, 1)
 
             shots.forEach((shot, index1) =>{
-                if(shot.x >= enemy1.x && shot.y >= enemy1.y && shot.y+21 >= enemy1.y){
+                console.log(shot.x,shot.y)
+                if(shot.x + 32 >= enemy1.x && shot.y >= enemy1.y && shot.y+21 >= enemy1.y){
 
                     booms.push(new Boom(enemy1.x + 20, enemy1.y + 40, speed))
                     
@@ -141,10 +148,7 @@ export default function field(lives : number){
                             shots.splice(index1, 1)
 
                             if(enemiess1.length == 0){
-                                fivHArr.push(new FiveH(enemy1.x, enemy1.y, 10, 10))
-                                fivHArr.forEach(bonus=>{
-                                    bonus.update500()
-                                })
+                                fivHArr.push(new FiveH(enemy1.x, enemy1.y, 2, 4))                                
                                 pointss += 5
                             }
                         }
@@ -152,13 +156,27 @@ export default function field(lives : number){
                     }, 0)
                 }
             })
+
+            // if(enemy1.x -1 == plane.x + plane.width){
+            //     kitty.pause()
+            //     if(lives - 1 == 0){
+            //         console.log('game over')
+            //         ctx!.drawImage(over, 100, 100);
+                    
+                    
+            //     }else {
+            //         ctx!.clearRect(0, 0, canvas!.width, canvas!.height)
+            //         field(lives-1)
+                    
+            //     }
+            // }
         })
 
         enemiess2.forEach((enemy2, index)=>{
             enemy2.update(deltaTime)
             if(enemy2.markedForDeletion) enemiess2.slice(index, 1)
 
-            shots.forEach((shot, index1) =>{
+            shots.forEach((shot, index1) =>{ 
                 if(shot.x >= enemy2.x && shot.y >= enemy2.y && shot.y+21 >= enemy2.y){
 
                     booms.push(new Boom(enemy2.x + 20, enemy2.y + 40, speed))
@@ -176,10 +194,7 @@ export default function field(lives : number){
                             shots.splice(index1, 1)
 
                             if(enemiess2.length == 0){
-                                fivHArr.push(new FiveH(enemy2.x, enemy2.y, 10, 10))
-                                fivHArr.forEach(bonus=>{
-                                    bonus.update500()
-                                })
+                                fivHArr.push(new FiveH(enemy2.x, enemy2.y, 2, 4))
                                 pointss += 5
                             }
                         }
@@ -187,6 +202,8 @@ export default function field(lives : number){
                     }, 0)
                 }
             })
+
+            
         })
 
         enemiess3.forEach((enemy3, index)=>{
@@ -211,10 +228,7 @@ export default function field(lives : number){
                             shots.splice(index1, 1)
 
                             if(enemiess3.length == 0){
-                                fivHArr.push(new FiveH(enemy3.x, enemy3.y, 10, 10))
-                                fivHArr.forEach(bonus=>{
-                                    bonus.update500()
-                                })
+                                fivHArr.push(new FiveH(enemy3.x, enemy3.y, 2, 4))
                                 pointss += 5
                             }
                         }
@@ -222,6 +236,17 @@ export default function field(lives : number){
                     }, 0)
                 }
             })
+
+            
+        })
+
+        fivHArr.forEach(bonus=>{
+            bonus.draw()
+        })
+
+        fivHArr.forEach((bonus, index)=>{
+            bonus.update(deltaTime)
+            if(bonus.markedForDetection) fivHArr.splice(index, 1)
         })
 
         booms.forEach((boom, index)=>{
@@ -231,6 +256,7 @@ export default function field(lives : number){
         booms.forEach((boom, index)=>{
             boom.drawBoom()
         })
+        console.log(fivHArr)
         
         
         // grids.forEach((grid) =>{
@@ -424,6 +450,7 @@ export default function field(lives : number){
     // addEventListener('keyup', movePlane1)
     function keyupp(){
         plane.imgstatek = 'plane1.png'
+        plane.drawCollisionShape()
     }
     let x : number = 0
     let y : number = 275
@@ -445,6 +472,7 @@ export default function field(lives : number){
                 plane.xx = -15
                 console.log('A')
                 plane.imgstatek = 'plane1.png'
+                plane.drawCollisionShape()
             }
         }else if(key.keyCode == 83){
             if(plane.y >= 590){
@@ -463,6 +491,7 @@ export default function field(lives : number){
                 plane.xx = 15
                 console.log('D')
                 plane.imgstatek = 'plane1.png'
+                plane.drawCollisionShape()
             }
         }else if(key.keyCode == 70){
             // if(plane.x <= 230){
