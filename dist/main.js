@@ -414,6 +414,9 @@ function field(lives) {
     let shott = new Audio();
     shott.src = './sound/shot.wav';
     shott.volume = 0.1;
+    let dedd = new Audio();
+    dedd.src = './sound/vgdeathsound.wav';
+    dedd.volume = 0.1;
     function animate(timeStamp) {
         const deltaTime = timeStamp - lastTime;
         requestAnimationFrame(animate);
@@ -471,13 +474,7 @@ function field(lives) {
             if (enemy1.x + enemy1.width < 0)
                 enemiess1.splice(index, 1);
             if (plane.x < enemy1.x + enemy1.width && plane.x + plane.width > enemy1.x && plane.y < enemy1.y + enemy1.height && plane.y + plane.height > enemy1.y) {
-                // if(lives - 1 == 0){
-                //     console.log('game over')
-                //     ctx!.drawImage(over, 100, 100);
-                // }else {
-                //     ctx!.clearRect(0, 0, canvas!.width, canvas!.height)
-                //     field(lives-1)
-                // }
+                dedd.play();
                 console.log('kolizja');
             }
         });
@@ -513,6 +510,7 @@ function field(lives) {
                 //     ctx!.clearRect(0, 0, canvas!.width, canvas!.height)
                 //     field(lives-1)
                 // }
+                dedd.play();
                 console.log('kolizja');
             }
         });
@@ -546,6 +544,7 @@ function field(lives) {
                 //     ctx!.clearRect(0, 0, canvas!.width, canvas!.height)
                 //     field(lives-1)
                 // }
+                dedd.play();
                 console.log('kolizja');
             }
         });
@@ -579,6 +578,7 @@ function field(lives) {
                 //     ctx!.clearRect(0, 0, canvas!.width, canvas!.height)
                 //     field(lives-1)
                 // }
+                dedd.play();
                 console.log('kolizja');
             }
         });
@@ -612,6 +612,7 @@ function field(lives) {
                 //     ctx!.clearRect(0, 0, canvas!.width, canvas!.height)
                 //     field(lives-1)
                 // }
+                dedd.play();
                 console.log('kolizja');
             }
         });
@@ -645,6 +646,7 @@ function field(lives) {
                 //     ctx!.clearRect(0, 0, canvas!.width, canvas!.height)
                 //     field(lives-1)
                 // }
+                dedd.play();
                 console.log('kolizja');
             }
         });
