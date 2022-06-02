@@ -285,14 +285,14 @@ const lifesAndGuns_1 = __importDefault(__webpack_require__(/*! ./lifesAndGuns */
 const fiveH_1 = __importDefault(__webpack_require__(/*! ./fiveH */ "./src/fiveH.ts"));
 const boom_1 = __importDefault(__webpack_require__(/*! ./boom */ "./src/boom.ts"));
 const enemy22_1 = __importDefault(__webpack_require__(/*! ./enemy22 */ "./src/enemy22.ts"));
+const greenEnemy_1 = __importDefault(__webpack_require__(/*! ./greenEnemy */ "./src/greenEnemy.ts"));
+const greenEnemy1_1 = __importDefault(__webpack_require__(/*! ./greenEnemy1 */ "./src/greenEnemy1.ts"));
+const transportShip_1 = __importDefault(__webpack_require__(/*! ./transportShip */ "./src/transportShip.ts"));
+const violetEnemy_1 = __importDefault(__webpack_require__(/*! ./violetEnemy */ "./src/violetEnemy.ts"));
+const fireOrb_1 = __importDefault(__webpack_require__(/*! ./fireOrb */ "./src/fireOrb.ts"));
 function field(lives) {
     const canvas = document.querySelector("canvas");
     const ctx = canvas === null || canvas === void 0 ? void 0 : canvas.getContext("2d");
-    //console.log('field')
-    let kitty = new Audio();
-    kitty.src = './sound/kitty.wav';
-    kitty.volume = 0.04;
-    kitty.play();
     ctx.fillStyle = "black";
     ctx === null || ctx === void 0 ? void 0 : ctx.fillRect(0, 0, canvas.width, canvas.height);
     const plane = new plane_1.default(-5, 275, 0, 0);
@@ -313,6 +313,7 @@ function field(lives) {
             pressed: false
         }
     };
+    let shh = 1;
     let back1 = new Image();
     back1.src = './background/back1.png';
     let back2 = new Image();
@@ -332,14 +333,82 @@ function field(lives) {
     let fivHArr = [];
     let booms = [];
     let lastTime = 0;
+    let orbArr = [];
     let enemiess1 = [];
     let enemiess2 = [];
     let enemiess3 = [];
-    for (let a = 1; a < 6; a++) {
-        enemiess1.push(new enemy22_1.default(1200 + canvas.width + a * 85, 285, 5, 0, 3, 101, 99, 11, a));
-        enemiess2.push(new enemy22_1.default(2500 + canvas.width + a * 85, 185, 5, 0, 3, 101, 99, 11, a));
-        enemiess3.push(new enemy22_1.default(3900 + canvas.width + a * 85, 435, 5, 0, 3, 103, 100, 22, a));
-    }
+    let enemiess4 = [];
+    let enemiess5 = [];
+    let enemiess6 = [];
+    let arShip = [];
+    setTimeout(() => {
+        for (let a = 1; a < 6; a++) {
+            enemiess1.push(new enemy22_1.default(140 + canvas.width + a * 105, 285, 5, 0, 3, 101, 99, 11, a));
+        }
+    }, 2800);
+    setTimeout(() => {
+        for (let a = 1; a < 6; a++) {
+            enemiess2.push(new enemy22_1.default(140 + canvas.width + a * 105, 185, 5, 0, 3, 101, 99, 11, a));
+        }
+    }, 8500);
+    setTimeout(() => {
+        for (let a = 1; a < 6; a++) {
+            enemiess1.push(new enemy22_1.default(140 + canvas.width + a * 105, 435, 5, 0, 3, 103, 100, 22, a));
+        }
+    }, 14200);
+    setTimeout(() => {
+        for (let a = 1; a < 6; a++) {
+            enemiess3.push(new greenEnemy_1.default(400, 50, 5, 0, 1, 69, 65, 33, a, 1));
+        }
+    }, 19000);
+    setTimeout(() => {
+        for (let a = 1; a < 6; a++) {
+            enemiess4.push(new greenEnemy1_1.default(20, 50, 5, 0, 1, 69, 65, 33, a));
+        }
+    }, 23800);
+    setTimeout(() => {
+        for (let a = 1; a < 6; a++) {
+            enemiess2.push(new enemy22_1.default(140 + canvas.width + a * 105, 225, 5, 0, 3, 101, 99, 11, a));
+        }
+    }, 28900);
+    setTimeout(() => {
+        for (let a = 1; a < 6; a++) {
+            enemiess1.push(new enemy22_1.default(140 + canvas.width + a * 105, 365, 5, 0, 3, 101, 99, 11, a));
+        }
+    }, 32900);
+    setTimeout(() => {
+        for (let a = 1; a < 5; a++) {
+            enemiess5.push(new violetEnemy_1.default(40 + a * 202, 0 - a * 25, 0, 5, 1, 87, 82, 44, a));
+        }
+    }, 36900);
+    setTimeout(() => {
+        for (let a = 1; a < 5; a++) {
+            enemiess6.push(new violetEnemy_1.default(40 + a * 202, 660 + a * 25, 0, -5, 1, 87, 82, 44, a));
+        }
+    }, 39900);
+    setTimeout(() => {
+        arShip.push(new transportShip_1.default(140 + canvas.width, 405, 2, 0));
+    }, 40000);
+    setTimeout(() => {
+        for (let a = 1; a < 6; a++) {
+            enemiess3.push(new greenEnemy_1.default(400, 50, 5, 0, 1, 69, 65, 33, a, 2));
+        }
+    }, 41000);
+    setTimeout(() => {
+        for (let a = 1; a < 6; a++) {
+            enemiess3.push(new greenEnemy_1.default(400, 50, 5, 0, 1, 69, 65, 33, a, 1));
+        }
+    }, 48400);
+    setTimeout(() => {
+        for (let a = 1; a < 5; a++) {
+            enemiess6.push(new violetEnemy_1.default(40 + a * 202, 660 + a * 25, 0, -5, 1, 87, 82, 44, a));
+        }
+    }, 53900);
+    setTimeout(() => {
+        for (let a = 1; a < 5; a++) {
+            enemiess5.push(new violetEnemy_1.default(40 + a * 202, 0 - a * 25, 0, 5, 1, 87, 82, 44, a));
+        }
+    }, 57000);
     let over = new Image();
     over.src = './pics/gameover.png';
     let shott = new Audio();
@@ -356,7 +425,7 @@ function field(lives) {
         background3.render3();
         points.drawPoints(pointss);
         lifesAndGuns.drawScore();
-        lifesAndGuns.drawGuns(1);
+        lifesAndGuns.drawGuns(shh);
         lifesAndGuns.drawLifes(lives);
         if (myBase.x >= -2) {
             myBase.xx -= 1.5;
@@ -374,18 +443,15 @@ function field(lives) {
             }
             else {
                 shott.play();
-                shot.drawCollisionShape();
                 shot.updateFire();
             }
         });
-        //console.log(enemiess1)
         enemiess1.forEach((enemy1, index) => {
             enemy1.update(deltaTime);
             if (enemy1.markedForDeletion)
                 enemiess1.slice(index, 1);
             shots.forEach((shot, index1) => {
-                console.log(shot.x, shot.y);
-                if (shot.x + 32 >= enemy1.x && shot.y >= enemy1.y && shot.y + 21 >= enemy1.y) {
+                if (shot.x < enemy1.x + enemy1.width && shot.x + shot.width > enemy1.x && shot.y < enemy1.y + enemy1.height && shot.y + shot.height > enemy1.y) {
                     booms.push(new boom_1.default(enemy1.x + 20, enemy1.y + 40, speed));
                     setTimeout(() => {
                         const myEnem = enemiess1.find(enemy2 => enemy2 === enemy2);
@@ -402,23 +468,25 @@ function field(lives) {
                     }, 0);
                 }
             });
-            // if(enemy1.x -1 == plane.x + plane.width){
-            //     kitty.pause()
-            //     if(lives - 1 == 0){
-            //         console.log('game over')
-            //         ctx!.drawImage(over, 100, 100);
-            //     }else {
-            //         ctx!.clearRect(0, 0, canvas!.width, canvas!.height)
-            //         field(lives-1)
-            //     }
-            // }
+            if (enemy1.x + enemy1.width < 0)
+                enemiess1.splice(index, 1);
+            if (plane.x < enemy1.x + enemy1.width && plane.x + plane.width > enemy1.x && plane.y < enemy1.y + enemy1.height && plane.y + plane.height > enemy1.y) {
+                // if(lives - 1 == 0){
+                //     console.log('game over')
+                //     ctx!.drawImage(over, 100, 100);
+                // }else {
+                //     ctx!.clearRect(0, 0, canvas!.width, canvas!.height)
+                //     field(lives-1)
+                // }
+                console.log('kolizja');
+            }
         });
         enemiess2.forEach((enemy2, index) => {
             enemy2.update(deltaTime);
             if (enemy2.markedForDeletion)
                 enemiess2.slice(index, 1);
             shots.forEach((shot, index1) => {
-                if (shot.x >= enemy2.x && shot.y >= enemy2.y && shot.y + 21 >= enemy2.y) {
+                if (shot.x < enemy2.x + enemy2.width && shot.x + shot.width > enemy2.x && shot.y < enemy2.y + enemy2.height && shot.y + shot.height > enemy2.y) {
                     booms.push(new boom_1.default(enemy2.x + 20, enemy2.y + 40, speed));
                     setTimeout(() => {
                         const myEnem = enemiess2.find(enemy2 => enemy2 === enemy2);
@@ -435,13 +503,25 @@ function field(lives) {
                     }, 0);
                 }
             });
+            if (enemy2.x + enemy2.width < 0)
+                enemiess2.splice(index, 1);
+            if (plane.x < enemy2.x + enemy2.width && plane.x + plane.width > enemy2.x && plane.y < enemy2.y + enemy2.height && plane.y + plane.height > enemy2.y) {
+                // if(lives - 1 == 0){
+                //     console.log('game over')
+                //     ctx!.drawImage(over, 100, 100);
+                // }else {
+                //     ctx!.clearRect(0, 0, canvas!.width, canvas!.height)
+                //     field(lives-1)
+                // }
+                console.log('kolizja');
+            }
         });
         enemiess3.forEach((enemy3, index) => {
             enemy3.update(deltaTime);
             if (enemy3.markedForDeletion)
                 enemiess3.slice(index, 1);
             shots.forEach((shot, index1) => {
-                if (shot.x >= enemy3.x && shot.y >= enemy3.y && shot.y + 21 >= enemy3.y) {
+                if (shot.x < enemy3.x + enemy3.width && shot.x + shot.width > enemy3.x && shot.y < enemy3.y + enemy3.height && shot.y + shot.height > enemy3.y) {
                     booms.push(new boom_1.default(enemy3.x + 20, enemy3.y + 40, speed));
                     setTimeout(() => {
                         const myEnem = enemiess3.find(enemy2 => enemy2 === enemy2);
@@ -458,9 +538,151 @@ function field(lives) {
                     }, 0);
                 }
             });
+            if (plane.x < enemy3.x + enemy3.width && plane.x + plane.width > enemy3.x && plane.y < enemy3.y + enemy3.height && plane.y + plane.height > enemy3.y) {
+                // if(lives - 1 == 0){
+                //     console.log('game over')
+                //     ctx!.drawImage(over, 100, 100);
+                // }else {
+                //     ctx!.clearRect(0, 0, canvas!.width, canvas!.height)
+                //     field(lives-1)
+                // }
+                console.log('kolizja');
+            }
+        });
+        enemiess4.forEach((enemy4, index) => {
+            enemy4.update(deltaTime);
+            if (enemy4.markedForDeletion)
+                enemiess4.slice(index, 1);
+            shots.forEach((shot, index1) => {
+                if (shot.x < enemy4.x + enemy4.width && shot.x + shot.width > enemy4.x && shot.y < enemy4.y + enemy4.height && shot.y + shot.height > enemy4.y) {
+                    booms.push(new boom_1.default(enemy4.x + 20, enemy4.y + 40, speed));
+                    setTimeout(() => {
+                        const myEnem = enemiess4.find(enemy2 => enemy2 === enemy2);
+                        const myShot = shots.find(shot2 => shot2 === shot);
+                        if (myEnem && myShot) {
+                            pointss += 1;
+                            enemiess4.splice(index, 1);
+                            shots.splice(index1, 1);
+                            if (enemiess4.length == 0) {
+                                fivHArr.push(new fiveH_1.default(enemy4.x, enemy4.y, 2, 4));
+                                pointss += 5;
+                            }
+                        }
+                    }, 0);
+                }
+            });
+            if (plane.x < enemy4.x + enemy4.width && plane.x + plane.width > enemy4.x && plane.y < enemy4.y + enemy4.height && plane.y + plane.height > enemy4.y) {
+                // if(lives - 1 == 0){
+                //     console.log('game over')
+                //     ctx!.drawImage(over, 100, 100);
+                // }else {
+                //     ctx!.clearRect(0, 0, canvas!.width, canvas!.height)
+                //     field(lives-1)
+                // }
+                console.log('kolizja');
+            }
+        });
+        enemiess5.forEach((enemy5, index) => {
+            enemy5.update(deltaTime);
+            if (enemy5.markedForDeletion)
+                enemiess5.slice(index, 1);
+            shots.forEach((shot, index1) => {
+                if (shot.x < enemy5.x + enemy5.width && shot.x + shot.width > enemy5.x && shot.y < enemy5.y + enemy5.height && shot.y + shot.height > enemy5.y) {
+                    booms.push(new boom_1.default(enemy5.x + 20, enemy5.y + 40, speed));
+                    setTimeout(() => {
+                        const myEnem = enemiess5.find(enemy2 => enemy2 === enemy2);
+                        const myShot = shots.find(shot2 => shot2 === shot);
+                        if (myEnem && myShot) {
+                            pointss += 1;
+                            enemiess5.splice(index, 1);
+                            shots.splice(index1, 1);
+                            if (enemiess5.length == 0) {
+                                fivHArr.push(new fiveH_1.default(enemy5.x, enemy5.y, 2, 4));
+                                pointss += 5;
+                            }
+                        }
+                    }, 0);
+                }
+            });
+            if (plane.x < enemy5.x + enemy5.width && plane.x + plane.width > enemy5.x && plane.y < enemy5.y + enemy5.height && plane.y + plane.height > enemy5.y) {
+                // if(lives - 1 == 0){
+                //     console.log('game over')
+                //     ctx!.drawImage(over, 100, 100);
+                // }else {
+                //     ctx!.clearRect(0, 0, canvas!.width, canvas!.height)
+                //     field(lives-1)
+                // }
+                console.log('kolizja');
+            }
+        });
+        enemiess6.forEach((enemy6, index) => {
+            enemy6.update(deltaTime);
+            if (enemy6.markedForDeletion)
+                enemiess6.slice(index, 1);
+            shots.forEach((shot, index1) => {
+                if (shot.x < enemy6.x + enemy6.width && shot.x + shot.width > enemy6.x && shot.y < enemy6.y + enemy6.height && shot.y + shot.height > enemy6.y) {
+                    booms.push(new boom_1.default(enemy6.x + 20, enemy6.y + 40, speed));
+                    setTimeout(() => {
+                        const myEnem = enemiess6.find(enemy2 => enemy2 === enemy2);
+                        const myShot = shots.find(shot2 => shot2 === shot);
+                        if (myEnem && myShot) {
+                            pointss += 1;
+                            enemiess6.splice(index, 1);
+                            shots.splice(index1, 1);
+                            if (enemiess6.length == 0) {
+                                fivHArr.push(new fiveH_1.default(enemy6.x, enemy6.y, 2, 4));
+                                pointss += 5;
+                            }
+                        }
+                    }, 0);
+                }
+            });
+            if (plane.x < enemy6.x + enemy6.width && plane.x + plane.width > enemy6.x && plane.y < enemy6.y + enemy6.height && plane.y + plane.height > enemy6.y) {
+                // if(lives - 1 == 0){
+                //     console.log('game over')
+                //     ctx!.drawImage(over, 100, 100);
+                // }else {
+                //     ctx!.clearRect(0, 0, canvas!.width, canvas!.height)
+                //     field(lives-1)
+                // }
+                console.log('kolizja');
+            }
+        });
+        arShip.forEach((ship, index) => {
+            ship.updateShip(deltaTime);
+            if (ship.markedForDeletion)
+                arShip.slice(index, 1);
+            shots.forEach((shot, index1) => {
+                if (shot.x < ship.x + ship.width && shot.x + shot.width > ship.x && shot.y < ship.y + ship.height && shot.y + shot.height > ship.y) {
+                    setTimeout(() => {
+                        const myShip = arShip.find(ship => ship === ship);
+                        const myShot = shots.find(shot2 => shot2 === shot);
+                        if (myShip && myShot) {
+                            orbArr.push(new fireOrb_1.default(ship.x, ship.y, 2, 0));
+                            arShip.splice(index, 1);
+                            shots.splice(index1, 1);
+                        }
+                    }, 0);
+                }
+            });
         });
         fivHArr.forEach(bonus => {
             bonus.draw();
+        });
+        orbArr.forEach((orb, index) => {
+            orb.update(deltaTime);
+            if (plane.x < orb.x + orb.width && plane.x + plane.width > orb.x && plane.y < orb.y + orb.height && plane.y + plane.height > orb.y) {
+                shh = 2;
+                orbArr.splice(index, 1);
+            }
+        });
+        arShip.forEach(ship => {
+            ship.drawShip();
+        });
+        arShip.forEach((ship, index) => {
+            ship.updateShip(deltaTime);
+            if (ship.markedForDeletion)
+                arShip.splice(index, 1);
         });
         fivHArr.forEach((bonus, index) => {
             bonus.update(deltaTime);
@@ -472,104 +694,15 @@ function field(lives) {
             if (boom.markedForDetection)
                 booms.splice(index, 1);
         });
-        booms.forEach((boom, index) => {
+        booms.forEach(boom => {
             boom.drawBoom();
         });
-        console.log(fivHArr);
-        // grids.forEach((grid) =>{
-        //     grid.update()
-        //     grid.enemies.forEach((enemy, index) =>{
-        //         //let fiveH = new FiveH(enemy.x, enemy.y, 0, 0)
-        //         enemy.updateEnemy(enem1Frame++)
-        //         enemy.drawEnemy()
-        //         // enemy.updateEnemy(deltaTime)
-        //         // enemy.drawEnemy()
-        //         if(enemy.x < 0){
-        //             grid.enemies.splice(index, 1)
-        //             console.log(grid.enemies)
-        //         }
-        //         shots.forEach((shot, index1) =>{
-        //             if(shot.x >= enemy.x && shot.y >= enemy.y && shot.y+21 >= enemy.y){
-        //                 booms.push(new Boom(enemy.x + enemy.spriteH / 3, enemy.y + enemy.spriteW / 3, speed))
-        //                 setTimeout(()=>{
-        //                     const myEnem = grid.enemies.find(enemy2 => enemy2 === enemy)
-        //                     const myShot = shots.find(shot2 => shot2 === shot)
-        //                     if(myEnem && myShot){
-        //                         pointss += 1
-        //                         grid.enemies.splice(index, 1)
-        //                         shots.splice(index1, 1)
-        //                         if(grid.enemies.length == 0){
-        //                             fiveH.update500()
-        //                             pointss += 5
-        //                         }
-        //                     }
-        //                 }, 0)
-        //             }
-        //         })
-        //         //console.log('x',enemy.x, plane.x+plane.width)
-        //         if(enemy.y == plane.y + plane.height){
-        //             kitty.pause()
-        //             if(lives - 1 == 0){
-        //                 console.log('game over')
-        //                 ctx!.drawImage(over, 100, 100);
-        //             }else {
-        //                 ctx!.clearRect(0, 0, canvas!.width, canvas!.height)
-        //                 field(lives-1)
-        //             }
-        //         }
-        //     })
-        // })
-        // grids2.forEach((grid) =>{
-        //     grid.update()
-        //     grid.enemies.forEach((enemy, index) =>{
-        //         //let fiveH = new FiveH(enemy.x, enemy.y, 0, 0)
-        //         enemy.updateEnemy(enem1Frame++)
-        //         enemy.drawEnemy()
-        //         // enemy.updateEnemy(deltaTime)
-        //         // enemy.drawEnemy()
-        //         if(enemy.x < 0){
-        //             grid.enemies.splice(index, 1)
-        //             console.log(grid.enemies)
-        //         }
-        //         shots.forEach((shot, index1) =>{
-        //             if(shot.x >= enemy.x && shot.y >= enemy.y && shot.y+21 >= enemy.y){
-        //                 booms.push(new Boom(enemy.x + enemy.spriteH / 3, enemy.y + enemy.spriteW / 3, speed))
-        //                 setTimeout(()=>{
-        //                     const myEnem = grid.enemies.find(enemy2 => enemy2 === enemy)
-        //                     const myShot = shots.find(shot2 => shot2 === shot)
-        //                     if(myEnem && myShot){
-        //                         pointss += 1
-        //                         grid.enemies.splice(index, 1)
-        //                         shots.splice(index1, 1)
-        //                         if(grid.enemies.length == 0){
-        //                             fiveH.update500()
-        //                             pointss += 5
-        //                         }
-        //                     }
-        //                 }, 0)
-        //             }
-        //         })
-        //         //console.log('x',enemy.x, plane.x+plane.width)
-        //         if(enemy.y == plane.y + plane.height){
-        //             kitty.pause()
-        //             if(lives - 1 == 0){
-        //                 kitty.pause()
-        //                 console.log('game over')
-        //                 ctx!.drawImage(over, 100, 100);
-        //             }else {
-        //                 ctx!.clearRect(0, 0, canvas!.width, canvas!.height)
-        //                 field(lives-1)
-        //             }
-        //         }
-        //     })
-        // })
         if (toChange == 0) {
             if (plane.x <= 230) {
                 plane.xx += 8;
                 let flame = new Image();
                 flame.src = './pics/flame.png';
                 ctx.drawImage(flame, plane.x - 66, plane.y + 13, 80, 30);
-                //106, 48
                 plane.update();
             }
             else {
@@ -579,10 +712,7 @@ function field(lives) {
         else {
             plane.update();
         }
-        //console.log(plane.x, plane.y)
-        //plane.drawCollisionShape()
         if (keys.left.pressed && keys.up.pressed || keys.up.pressed && keys.left.pressed || keys.up.pressed && keys.right.pressed || keys.down.pressed && keys.left.pressed || keys.down.pressed && keys.right.pressed) {
-            console.log('chuj');
             return;
         }
         else if (keys.up.pressed) {
@@ -617,12 +747,30 @@ function field(lives) {
         }
     }
     animate(0);
+    setTimeout(() => {
+        while (enemiess3.length > 0) {
+            enemiess3.pop();
+        }
+    }, 26800);
+    setTimeout(() => {
+        while (enemiess4.length > 0) {
+            enemiess4.pop();
+        }
+    }, 32000);
+    setTimeout(() => {
+        while (enemiess3.length > 0) {
+            enemiess3.pop();
+        }
+    }, 48200);
+    setTimeout(() => {
+        while (enemiess3.length > 0) {
+            enemiess3.pop();
+        }
+    }, 56200);
     addEventListener('keydown', movePlane);
     addEventListener('keyup', keyupp);
-    // addEventListener('keyup', movePlane1)
     function keyupp() {
         plane.imgstatek = 'plane1.png';
-        plane.drawCollisionShape();
     }
     let x = 0;
     let y = 275;
@@ -632,7 +780,6 @@ function field(lives) {
                 return;
             }
             else {
-                //keys.up.pressed = true
                 plane.yy = -15;
                 console.log('W');
                 plane.imgstatek = 'plane3.png';
@@ -643,11 +790,9 @@ function field(lives) {
                 return;
             }
             else {
-                //keys.left.pressed = true
                 plane.xx = -15;
                 console.log('A');
                 plane.imgstatek = 'plane1.png';
-                plane.drawCollisionShape();
             }
         }
         else if (key.keyCode == 83) {
@@ -655,7 +800,6 @@ function field(lives) {
                 return;
             }
             else {
-                //keys.down.pressed = true
                 plane.yy = 15;
                 console.log('S');
                 plane.imgstatek = 'plane2.png';
@@ -666,50 +810,24 @@ function field(lives) {
                 return;
             }
             else {
-                //keys.right.pressed = true
                 plane.xx = 15;
                 console.log('D');
                 plane.imgstatek = 'plane1.png';
-                plane.drawCollisionShape();
             }
         }
         else if (key.keyCode == 70) {
-            // if(plane.x <= 230){
-            //     console.log('nie mozna strzelac')
-            // }else {
             keys.fire.pressed = true;
-            shots.push(new fire_1.default(plane.x + 70, plane.y + 18, 20, 0));
-            // }
-            console.log(shots);
+            if (shh == 1) {
+                shots.push(new fire_1.default(plane.x + 70, plane.y + 18, 20, 0, 21, 22, 1));
+            }
+            else {
+                shots.push(new fire_1.default(plane.x + 70, plane.y + 18, 20, 0, 39, 27, 2));
+            }
         }
         else {
-            //console.log(x,y)
             return;
         }
     }
-    // function movePlane1(key:any){
-    //     switch(key.keyCode){
-    //         case 87:
-    //             keys.up.pressed = false
-    //             console.log("W")
-    //             break
-    //         case 65:
-    //             keys.left.pressed = false
-    //             console.log('A')
-    //             break
-    //         case 83:
-    //             keys.down.pressed = false
-    //             console.log('S')
-    //             break
-    //         case 68:
-    //             keys.right.pressed = false
-    //             console.log('D')
-    //             break
-    //         case 70:
-    //             console.log('STOP FIRE')
-    //             break
-    //     }
-    // }
 }
 exports["default"] = field;
 
@@ -727,26 +845,19 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 const canvas = document.querySelector("canvas");
 const ctx = canvas === null || canvas === void 0 ? void 0 : canvas.getContext("2d");
 class Fire {
-    constructor(x, y, xx, yy) {
+    constructor(x, y, xx, yy, width, height, shot) {
         this.x = x;
         this.y = y;
         this.xx = xx;
         this.yy = yy;
-    }
-    drawCollisionShape() {
-        ctx.beginPath();
-        ctx.moveTo(this.x, this.y);
-        ctx.lineTo(this.x + 32, this.y);
-        ctx.lineTo(this.x + 32, this.y + 25);
-        ctx.lineTo(this.x, this.y + 25);
-        ctx.strokeStyle = '#ff0000';
-        ctx.closePath();
-        ctx.stroke();
+        this.width = width;
+        this.height = height;
+        this.shot = shot;
     }
     drawFire() {
         let shots = new Image();
-        shots.src = './pics/shots1.png';
-        ctx.drawImage(shots, this.x, this.y, 21, 22);
+        shots.src = './pics/shots' + this.shot + '.png';
+        ctx.drawImage(shots, this.x, this.y, this.width, this.height);
     }
     updateFire() {
         this.drawFire();
@@ -755,6 +866,60 @@ class Fire {
     }
 }
 exports["default"] = Fire;
+
+
+/***/ }),
+
+/***/ "./src/fireOrb.ts":
+/*!************************!*\
+  !*** ./src/fireOrb.ts ***!
+  \************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const canvas = document.querySelector("canvas");
+const ctx = canvas === null || canvas === void 0 ? void 0 : canvas.getContext("2d");
+class Orb {
+    constructor(x, y, xx, yy) {
+        this.spriteH = 63;
+        this.spriteW = 94;
+        this.sizeModifire = 0.7;
+        this.height = this.spriteH * this.sizeModifire;
+        this.width = this.spriteW * this.sizeModifire;
+        this.maxFrame = 1;
+        this.markedForDetection = false;
+        this.fps = 5;
+        this.frameInterval = 10000 / this.fps;
+        this.frameTimer = 0;
+        this.frameX = 0;
+        this.x = x;
+        this.y = y;
+        this.xx = xx;
+        this.yy = yy;
+    }
+    draw() {
+        let fivHImg = new Image();
+        fivHImg.src = './pics/bonuss.png';
+        ctx.drawImage(fivHImg, this.frameX * this.spriteW, 0, this.spriteW, this.spriteH, this.x, this.y, this.width, this.height);
+    }
+    update(deltaTime) {
+        this.x -= this.xx;
+        if (this.frameTimer > this.frameInterval) {
+            if (this.frameX < this.maxFrame)
+                this.frameX++;
+            else
+                this.frameX = 0;
+        }
+        else {
+            this.frameTimer += deltaTime;
+        }
+        this.draw();
+        if (this.x + this.width < 0)
+            this.markedForDetection = true;
+    }
+}
+exports["default"] = Orb;
 
 
 /***/ }),
@@ -915,6 +1080,99 @@ exports["default"] = FiveH;
 
 /***/ }),
 
+/***/ "./src/greenEnemy.ts":
+/*!***************************!*\
+  !*** ./src/greenEnemy.ts ***!
+  \***************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const baseEnemy_1 = __importDefault(__webpack_require__(/*! ./baseEnemy */ "./src/baseEnemy.ts"));
+const canvas = document.querySelector("canvas");
+const ctx = canvas === null || canvas === void 0 ? void 0 : canvas.getContext("2d");
+class GreenEnemy extends baseEnemy_1.default {
+    constructor(x, y, speedX, speedY, maxFrame, width, height, enem, a, site) {
+        super(x, y, speedX, speedY, maxFrame, width, height, enem);
+        this.angle = 0;
+        this.va = 0.07;
+        this.angleSpeed = 0.55;
+        this.curve = -600;
+        this.a = a * 10 + this.angle;
+        this.x = x;
+        this.y = y;
+        this.speedX = speedX;
+        this.speedY = speedY;
+        this.maxFrame = maxFrame;
+        this.width = width;
+        this.height = height;
+        this.enem = enem;
+        this.site = site;
+    }
+    update(deltaTime) {
+        super.updateEnemy(deltaTime);
+        if (this.site == 1) {
+            this.x = this.curve * Math.sin(this.a * Math.PI / -180) + (canvas.width / 2 - this.width / 2);
+            this.y = this.curve * Math.cos(this.a * Math.PI / -180) - (canvas.height / 2 - this.height / 2);
+        }
+        else if (this.site == 2) {
+            this.x = this.curve * Math.sin(this.a * Math.PI / 180) + (canvas.width / 2 - this.width / 2);
+            this.y = this.curve * Math.cos(this.a * Math.PI / -180) - (canvas.height / 2 - this.height / 2);
+        }
+        this.a += this.angleSpeed;
+    }
+}
+exports["default"] = GreenEnemy;
+
+
+/***/ }),
+
+/***/ "./src/greenEnemy1.ts":
+/*!****************************!*\
+  !*** ./src/greenEnemy1.ts ***!
+  \****************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const baseEnemy_1 = __importDefault(__webpack_require__(/*! ./baseEnemy */ "./src/baseEnemy.ts"));
+const canvas = document.querySelector("canvas");
+const ctx = canvas === null || canvas === void 0 ? void 0 : canvas.getContext("2d");
+class GreenEnemy1 extends baseEnemy_1.default {
+    constructor(x, y, speedX, speedY, maxFrame, width, height, enem, a) {
+        super(x, y, speedX, speedY, maxFrame, width, height, enem);
+        this.angle = 0;
+        this.va = 0.07;
+        this.angleSpeed = 0.55;
+        this.curve = 800;
+        this.a = a * 10 + this.angle;
+        this.x = x;
+        this.y = y;
+        this.speedX = speedX;
+        this.speedY = speedY;
+        this.maxFrame = maxFrame;
+        this.width = width;
+        this.height = height;
+        this.enem = enem;
+    }
+    update(deltaTime) {
+        super.updateEnemy(deltaTime);
+        this.x = this.curve * Math.sin(this.a * Math.PI / 180) + (canvas.width / 2 - this.width / 2);
+        this.y = this.curve * Math.cos(this.a * Math.PI / 180) + (canvas.height * 2 - this.height * 3);
+        this.a += this.angleSpeed;
+    }
+}
+exports["default"] = GreenEnemy1;
+
+
+/***/ }),
+
 /***/ "./src/index.ts":
 /*!**********************!*\
   !*** ./src/index.ts ***!
@@ -984,19 +1242,7 @@ class Plane {
         this.width = 95;
         this.height = 60;
     }
-    drawCollisionShape() {
-        ctx.beginPath();
-        ctx.moveTo(this.x + 5, this.y);
-        ctx.lineTo(this.x + 20, this.y);
-        ctx.lineTo(this.x + 95, this.y + 30);
-        ctx.lineTo(this.x + 60, this.y + 55);
-        ctx.lineTo(this.x + 5, this.y + 55);
-        ctx.strokeStyle = '#ff0000';
-        ctx.closePath();
-        ctx.stroke();
-    }
     draw() {
-        this.drawCollisionShape();
         //ctx!.fillStyle = 'red'
         let statekk = new Image();
         let img = './pics/' + this.imgstatek;
@@ -1144,6 +1390,96 @@ function setIMG(imagePath) {
     img.src = imagePath;
 }
 exports["default"] = setIMG;
+
+
+/***/ }),
+
+/***/ "./src/transportShip.ts":
+/*!******************************!*\
+  !*** ./src/transportShip.ts ***!
+  \******************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const canvas = document.querySelector("canvas");
+const ctx = canvas === null || canvas === void 0 ? void 0 : canvas.getContext("2d");
+class Ship {
+    constructor(x, y, speedX, speedY) {
+        this.frameX = 0;
+        this.frameY = 0;
+        this.fps = 5;
+        this.frameInterval = 100000 / this.fps;
+        this.frameTimer = 0;
+        this.maxFrame = 1;
+        this.width = 114;
+        this.height = 83;
+        this.markedForDeletion = false;
+        this.x = x;
+        this.y = y;
+        this.speedX = speedX;
+        this.speedY = speedY;
+    }
+    updateShip(deltaTime) {
+        this.x -= this.speedX;
+        this.y += this.speedY;
+        if (this.frameTimer > this.frameInterval) {
+            this.frameTimer = 0;
+            if (this.frameX < this.maxFrame)
+                this.frameX++;
+            else
+                this.frameX = 0;
+        }
+        else {
+            this.frameTimer += deltaTime;
+        }
+        this.drawShip();
+        if (this.x + this.width < 0)
+            this.markedForDeletion = true;
+    }
+    drawShip() {
+        let image = new Image();
+        image.src = './pics/newWepon.png';
+        ctx.drawImage(image, this.frameX * this.width, 0, this.width, this.height, this.x, this.y, this.width / 1.52, this.height / 1.52);
+    }
+}
+exports["default"] = Ship;
+
+
+/***/ }),
+
+/***/ "./src/violetEnemy.ts":
+/*!****************************!*\
+  !*** ./src/violetEnemy.ts ***!
+  \****************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const baseEnemy_1 = __importDefault(__webpack_require__(/*! ./baseEnemy */ "./src/baseEnemy.ts"));
+const canvas = document.querySelector("canvas");
+const ctx = canvas === null || canvas === void 0 ? void 0 : canvas.getContext("2d");
+class VioletEnemy extends baseEnemy_1.default {
+    constructor(x, y, speedX, speedY, maxFrame, width, height, enem, a) {
+        super(x, y, speedX, speedY, maxFrame, width, height, enem);
+        this.a = a;
+        this.x = x;
+        this.y = y;
+        this.speedX = speedX;
+        this.speedY = speedY;
+        this.maxFrame = maxFrame;
+        this.width = width;
+        this.height = height;
+        this.enem = enem;
+    }
+    update(deltaTime) {
+        super.updateEnemy(deltaTime);
+    }
+}
+exports["default"] = VioletEnemy;
 
 
 /***/ })

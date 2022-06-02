@@ -1,6 +1,6 @@
 const canvas = document.querySelector("canvas");
 const ctx = canvas?.getContext("2d");
-export default class Enemy{
+export default class Ship{
     frameX : number = 0
     frameY : number = 0
     fps : number = 5
@@ -10,23 +10,18 @@ export default class Enemy{
     y : number
     speedX : number
     speedY : number
-    maxFrame : number
-    width : number
-    height : number
-    enem : number
+    maxFrame : number = 1
+    width : number = 114
+    height : number = 83
     markedForDeletion : boolean = false
-    constructor(x:number, y:number, speedX:number, speedY:number, maxFrame:number, width:number, height:number, enem:number){
+    constructor(x:number, y:number, speedX:number, speedY:number){
         this.x = x
         this.y = y
         this.speedX = speedX
         this.speedY = speedY
-        this.maxFrame = maxFrame
-        this.width = width
-        this.height = height
-        this.enem = enem
     }
 
-    updateEnemy(deltaTime : number){
+    updateShip(deltaTime : number){
         this.x -= this.speedX
         this.y += this.speedY
         if(this.frameTimer > this.frameInterval){
@@ -36,14 +31,14 @@ export default class Enemy{
         }else{
             this.frameTimer += deltaTime
         }
-        this.drawEnemy()
+        this.drawShip()
 
         if(this.x + this.width < 0) this.markedForDeletion = true
 
     }
-    drawEnemy(){
+    drawShip(){
         let image : CanvasImageSource = new Image()
-        image.src = './enemies/'+ this.enem +'.png'
+        image.src = './pics/newWepon.png'
         ctx!.drawImage(image, this.frameX * this.width, 0, this.width, this.height, this.x, this.y, this.width/1.52, this.height/1.52)
     }
 

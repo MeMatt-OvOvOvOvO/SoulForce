@@ -26,22 +26,7 @@ export default class Plane implements Position, Velocity{
         this.height = 60
         
     }
-    drawCollisionShape(){
-        ctx!.beginPath();
-        ctx!.moveTo(this.x+5, this.y);
-        ctx!.lineTo(this.x+20, this.y);
-        ctx!.lineTo(this.x+95, this.y+30);
-        ctx!.lineTo(this.x+60, this.y+55);
-        ctx!.lineTo(this.x+5, this.y+55);
-
-
-        ctx!.strokeStyle = '#ff0000';
-        ctx!.closePath();
-        ctx!.stroke();
-    }
-
     draw(){
-        this.drawCollisionShape()
         //ctx!.fillStyle = 'red'
         let statekk : CanvasImageSource = new Image();
         let img = './pics/' + this.imgstatek;

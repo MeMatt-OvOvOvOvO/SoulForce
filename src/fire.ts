@@ -1,32 +1,28 @@
 const canvas = document.querySelector("canvas");
 const ctx = canvas?.getContext("2d");
 export default class Fire{
-    public x : number
-    public y : number
+    x : number
+    y : number
     xx:number
     yy:number
+    width:number
+    height:number
+    shot:number
 
-    constructor(x:number, y:number, xx:number, yy:number){
+    constructor(x:number, y:number, xx:number, yy:number, width:number, height:number, shot:number){
         this.x = x
         this.y = y
         this.xx = xx
         this.yy = yy
-    }
-    drawCollisionShape(){
-        ctx!.beginPath();
-        ctx!.moveTo(this.x, this.y);
-        ctx!.lineTo(this.x+32, this.y);
-        ctx!.lineTo(this.x+32, this.y+25);
-        ctx!.lineTo(this.x, this.y+25);
-        ctx!.strokeStyle = '#ff0000';
-        ctx!.closePath();
-        ctx!.stroke();
+        this.width = width
+        this.height = height
+        this.shot = shot
     }
 
     drawFire(){
         let shots : CanvasImageSource = new Image()
-        shots.src = './pics/shots1.png'
-        ctx!.drawImage(shots, this.x, this.y, 21, 22);
+        shots.src = './pics/shots'+this.shot+'.png'
+        ctx!.drawImage(shots, this.x, this.y, this.width, this.height);
     }
     updateFire(){
         this.drawFire()
